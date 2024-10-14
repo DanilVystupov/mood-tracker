@@ -1,13 +1,15 @@
 import { Routes, Route } from 'react-router-dom';
-import Home from './components/Home';
-import About from './components/About';
-import './App.css';
+import HomePage from './pages/home-page';
+import AboutPage from './pages/about-page';
+import ErrorPage from './pages/ErrorPage.tsx';
+import { HOME_PATH, ABOUT_PATH } from './consts/paths.ts';
 
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/about" element={<About />} />
+      <Route path={`${HOME_PATH}`} element={<HomePage />} />
+      <Route path={`${ABOUT_PATH}`} element={<AboutPage />} />
+      <Route path="*" element={<ErrorPage />} />
     </Routes>
   );
 }
