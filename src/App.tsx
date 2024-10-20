@@ -1,16 +1,18 @@
-import { Routes, Route } from 'react-router-dom';
-import HomePage from './pages/home-page';
-import AboutPage from './pages/about-page';
-import ErrorPage from './pages/ErrorPage.tsx';
-import { HOME_PATH, ABOUT_PATH } from './consts/paths.ts';
+import AppRoutes from './AppRoutes.tsx';
+
+import './assets/styles/typography.pcss';
+import './assets/styles/colors.pcss';
+import './assets/styles/fonts.pcss';
+import './assets/styles/reset.pcss';
+import './assets/styles/breakpoints.pcss';
+import './assets/styles/mixins.pcss';
+import './assets/styles/global.pcss';
 
 function App() {
   return (
-    <Routes>
-      <Route path={`${HOME_PATH}`} element={<HomePage />} />
-      <Route path={`${ABOUT_PATH}`} element={<AboutPage />} />
-      <Route path="*" element={<ErrorPage />} />
-    </Routes>
+    <div className="container">
+      <AppRoutes />
+    </div>
   );
 }
 

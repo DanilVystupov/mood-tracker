@@ -1,0 +1,15 @@
+@define-mixin hover $hover-bg, $hover-color {
+  @media (hover: hover) {
+    &:hover {
+      background-color: $hover-bg;
+      color: $hover-color;
+    }
+  }
+
+  @media (hover: none) {
+    &:active {
+      background-color: $hover-bg;
+      color: $hover-color;
+    }
+  }
+}

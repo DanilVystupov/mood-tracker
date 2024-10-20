@@ -1,0 +1,128 @@
+@import "./typography.pcss";
+
+:root {
+  --header-z-index: 100;
+  --chat-z-index: 90;
+  --dropdown-z-index: 95;
+}
+
+body {
+  font-family: 'Manrope', 'Roboto', sans-serif;
+  font-size: 18px;
+  line-height: 140%;
+  color: var(--white);
+  background-color: var(--orange-300);
+  background-image: radial-gradient(circle, var(--orange-200) 0%, var(--orange-300) 70%, var(--orange-400) 100%);
+}
+
+.container {
+  width: 100%;
+  max-width: 1920px;
+  margin: 0 auto;
+  padding: 0 12px;
+
+  @media (--md) {
+    padding-left: 36px;
+    padding-right: 36px;
+  }
+}
+
+h1, .h1 {
+  @mixin h1;
+}
+
+h2, .h2 {
+  @mixin h2;
+}
+
+h3, .h3 {
+  @mixin h3;
+}
+
+h4, .h4 {
+  @mixin h4;
+}
+
+h5, .h5 {
+  @mixin h5;
+}
+
+.text-s24 {
+  @mixin text-s24;
+}
+
+.text-s20 {
+  @mixin text-s20;
+}
+
+.text-s18-120 {
+  @mixin text-s18-120;
+}
+
+.text-s18-140 {
+  @mixin text-s18-140;
+}
+
+.text-s16 {
+  @mixin text-s16;
+}
+
+.text-s14 {
+  @mixin text-s14;
+}
+
+.text-b14 {
+  @mixin text-b14;
+}
+
+.text-s12 {
+  @mixin text-s12;
+}
+
+.text-r24 {
+  @mixin text-r24;
+}
+
+.text-r18-140 {
+  @mixin text-r18-140;
+}
+
+.text-r18-160 {
+  @mixin text-r18-160;
+}
+
+.text-r16 {
+  @mixin text-r16;
+}
+
+.text-m14 {
+  @mixin text-m14;
+}
+
+.text-r14 {
+  @mixin text-r14;
+}
+
+.text-r12 {
+  @mixin text-r12;
+}
+
+p {
+  &:not(:last-child) {
+    margin-bottom: 1em;
+  }
+}
+
+.scroll-block {
+  overflow: hidden;
+}
+
+button.woot-widget-bubble {
+  z-index: var(--chat-z-index) !important;
+}
+
+.fancybox__slide.envelope .fancybox__content {
+  width: initial !important;
+  height: 100% !important;
+  aspect-ratio: initial !important;
+}
