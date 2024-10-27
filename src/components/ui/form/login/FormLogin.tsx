@@ -3,7 +3,6 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { supabase } from "../../../../client";
 import { HOME_PATH, SIGN_UP_PATH } from "../../../../helpers/constants/paths";
 import { useHandleNavigate } from "../../../../helpers/hooks/useHandleNavigate";
-import { userStore } from "../../../../stores/user";
 import { IFormLogin } from "../../../../types/types";
 import Button from "../../button/Button";
 import './FormLogin.pcss';
@@ -20,7 +19,7 @@ const FormLogin = () => {
 
   const sendForm: SubmitHandler<IFormLogin> = async (formData) => {
     try {
-      const { data, error } = await supabase.auth.signInWithPassword({
+      const { error } = await supabase.auth.signInWithPassword({
         email: formData.email,
         password: formData.password,
       })
@@ -31,7 +30,6 @@ const FormLogin = () => {
         return
       }
 
-      userStore.setToken(data)
       alert('Вы успешно вошли в свой аккаунт!')
       handleNavigate(HOME_PATH)
 

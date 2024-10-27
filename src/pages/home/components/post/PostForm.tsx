@@ -2,6 +2,7 @@ import { observer } from 'mobx-react-lite';
 import { useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { postsStore } from '../../../../stores/posts';
+import { userStore } from '../../../../stores/user/index.ts';
 import { IFormPost } from '../../../../types/types.ts';
 
 const emojis: string[] = ['😊', '😢', '😡', '😎', '🤔'];
@@ -14,14 +15,26 @@ export const PostForm = observer(() => {
     formState: { isSubmitSuccessful },
   } = useForm<IFormPost>();
 
-  const createFormPost: SubmitHandler<IFormPost> = (data) => {
-    const datePublication: string = new Date().toISOString();
-    postsStore.addPost({ ...data, datePublication });
+  const createFormPost: SubmitHandler<IFormPost> = async (data) => {
+    const id = userStore.user?.id
+    
+    if (!id) {
+      console.error("Ошибка: ID пользователя не найден");
+      return;
+    }
+
+    await postsStore.addPost({
+      ...data, id,
+      inserted_at: '',
+      user_id: ''
+    });
     postsStore.setIsOpenModal(false);
   };
 
   useEffect(() => {
-    reset();
+    if (isSubmitSuccessful) {
+      reset();
+    }
   }, [isSubmitSuccessful, reset]);
 
   return (
@@ -51,7 +64,9 @@ export const PostForm = observer(() => {
           </div>
 
           <div className="post-form__item post-form-item">
-            <h2 className="post-form-item__title">Опишите ваше состояние</h2>
+            <h2 className="post-form-item__title">
+              Опишите ваше состояние
+            </h2>
             <div className="post-form-item__content">
               <input
                 type="text"

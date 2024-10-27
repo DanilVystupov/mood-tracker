@@ -1,24 +1,22 @@
 import { observer } from 'mobx-react-lite';
-import { IFormPost } from '../../types/types.ts';
+import { Post } from '../../types/types.ts';
 
 interface PostItemProps {
-  post: IFormPost;
+  post: Post;
 }
 
 export const PostItem = observer(({ post }: PostItemProps) => {
   return (
-    <>
-      <div className="post-item">
-        <h2>
-          Время публикации: {post.datePublication}
-          <hr />
-          Выбранный эмодзи: {post.emoji}
-          <hr />
-          Описание состояния: {post.description}
-          <hr />
-          Причина: {post.reason}
-        </h2>
-      </div>
-    </>
+    <div className="post-item">
+      <h2>
+        Время публикации: {post.inserted_at}
+        <hr />
+        Выбранный эмодзи: {post.emoji}
+        <hr />
+        Описание состояния: {post.description}
+        <hr />
+        Причина: {post.reason}
+      </h2>
+    </div>
   );
 });

@@ -1,22 +1,75 @@
-import { makeAutoObservable } from 'mobx';
-import { IFormPost } from '../../types/types.ts';
+import { makeAutoObservable, runInAction } from 'mobx';
+import { supabase } from '../../client.ts';
+import { Post } from '../../types/types.ts';
 
 class Store {
-  posts: IFormPost[] = [];
+  posts: Post[] = [];
   isOpenModal: boolean = false;
+  isLoading: boolean = false;
 
   constructor() {
     makeAutoObservable(this);
   }
 
-  setIsOpenModal(isOpen: boolean) {
-    this.isOpenModal = isOpen;
+  setIsOpenModal(value: boolean) {
+    runInAction(() => {
+      this.isOpenModal = value;
+    })
   }
 
-  addPost = (data: IFormPost) => {
-    const newPost = { ...data };
+  setLoading(value:boolean) {
+    runInAction(() => {
+      this.isLoading = value
+    })
+  }
 
-    this.posts.push(newPost);
+  setPosts(data: Post[]) {
+    runInAction(() => {
+      this.posts = [...data]
+    })
+  }
+
+  async getPosts() {
+    this.setLoading(true)
+
+    try {
+      const { data: posts, error } = await supabase.from('posts').select()
+
+      if (error) {
+        throw error
+      }
+      this.setPosts(posts)
+    } catch(error) {
+      console.error(error)
+    } finally {
+      this.setLoading(false)
+    }
+  }
+
+  async addPost(post: Post) {
+    try {
+      const { data: newPost, error } = await supabase
+      .from('posts')
+      .upsert(
+        {
+          user_id: post.id,
+          description: post.description,
+          reason: post.reason,
+          emoji: post.emoji
+        }
+      )
+      .select()
+      
+      runInAction(() => {
+        this.posts = [...this.posts, ...(newPost ?? [])];
+      });
+      
+      if (error) {
+        console.error('Ошибка при добавлении записи:', error.message);
+      }
+    } catch(error) {
+      console.error(error)
+    }
   };
 }
 
