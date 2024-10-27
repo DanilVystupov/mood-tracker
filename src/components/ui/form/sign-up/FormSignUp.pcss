@@ -1,0 +1,66 @@
+.form-sign-up-wrapper {
+  display: grid;
+  row-gap: 24px;
+}
+
+.form-sign-up__content {
+  display: flex;
+  flex-direction: column;
+  row-gap: 24px;
+}
+
+.form-sign-up__fields {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.form-sign-up__field {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: fit-content;
+}
+
+.form-sign-up__label {
+  margin-right: auto;
+}
+
+.form-sign-up__input {
+  padding: 8px 12px;
+  border-radius: 8px;
+  outline: none;
+  background-color: transparent;
+  border: 1px solid #fff;
+  width: 100%;
+  color: var(--white);
+
+  &::-moz-placeholder {
+    color: var(--white);
+    opacity:  1;
+  }
+
+  &:-ms-input-placeholder {
+    color: var(--white);
+  }
+
+  &::placeholder {
+    color: var(--white);
+  }
+}
+
+.form-sign-up__controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  column-gap: 12px;
+}
+
+.form-sign-up__note {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}

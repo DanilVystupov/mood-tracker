@@ -1,8 +1,8 @@
 import { observer } from 'mobx-react-lite';
-import { postsStore } from '../../../../stores/posts';
-import { useForm, SubmitHandler } from 'react-hook-form';
-import { IFormPost } from '../../../../types/types.ts';
 import { useEffect } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { postsStore } from '../../../../stores/posts';
+import { IFormPost } from '../../../../types/types.ts';
 
 const emojis: string[] = ['😊', '😢', '😡', '😎', '🤔'];
 

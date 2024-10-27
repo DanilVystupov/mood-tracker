@@ -1,5 +1,5 @@
-import { IFormPost } from '../../types/types.ts';
 import { observer } from 'mobx-react-lite';
+import { IFormPost } from '../../types/types.ts';
 
 interface PostItemProps {
   post: IFormPost;

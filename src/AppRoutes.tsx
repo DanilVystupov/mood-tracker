@@ -1,11 +1,11 @@
-import { Routes, Route, Navigate } from 'react-router-dom';
-import { HOME_PATH } from './utils/consts/paths.ts';
-import { routes } from './routes/routes.tsx';
+import { Navigate, Route, Routes } from 'react-router-dom';
+import { HOME_PATH } from './helpers/constants/paths.ts';
+import { privateRoutes } from './routes/routes.tsx';
 
 function AppRoutes() {
   return (
     <Routes>
-      {routes.map((route) => (
+      {privateRoutes.map((route) => (
         <Route key={route.path} path={route.path} element={route.element} />
       ))}
 

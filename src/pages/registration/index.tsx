@@ -1,14 +1,6 @@
-import { useNavigate } from 'react-router-dom';
-import './Intro.pcss';
-import Button from '../../../../components/ui/button/Button.tsx';
+import FormSignUp from "../../components/ui/form/sign-up/FormSignUp";
 
-function Intro() {
-  const navigate = useNavigate();
-
-  const goToLoginPage = () => {
-    navigate('/home');
-  };
-
+function RegistrationPage() {
   return (
     <div className="intro">
       <h2 className="intro__title">Привет, дорогой пользователь</h2>
@@ -19,17 +11,9 @@ function Intro() {
         и&nbsp;видеть их&nbsp;взаимосвязь с&nbsp;жизненными событиями.
       </p>
 
-      <div className="intro__controls">
-        <Button onClick={() => goToLoginPage()} primary>
-          Войти
-        </Button>
-
-        <Button onClick={() => goToLoginPage()} secondary>
-          Зарегистрироваться
-        </Button>
-      </div>
+      <FormSignUp />
     </div>
   );
 }
 
-export default Intro;
+export default RegistrationPage;

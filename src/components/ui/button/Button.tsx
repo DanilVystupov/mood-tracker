@@ -6,6 +6,7 @@ interface IButtonProps {
   onClick?: () => void;
   primary?: boolean;
   secondary?: boolean;
+  type?: "reset" | "button" | "submit";
 }
 
 export default function Button({
@@ -13,6 +14,7 @@ export default function Button({
   primary,
   secondary,
   onClick,
+  type = 'button',
 }: IButtonProps) {
   const classes = className('button', {
     'button--primary': primary,
@@ -20,7 +22,7 @@ export default function Button({
   });
 
   return (
-    <button className={classes} onClick={onClick}>
+    <button type={type} className={classes} onClick={onClick}>
       {children}
     </button>
   );

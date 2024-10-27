@@ -1,6 +1,6 @@
-import './Clouds.pcss';
+import './BackgroundClouds.pcss';
 
-const Clouds = () => {
+const BackgroundClouds = () => {
   const getRandomSize = () => Math.random() * 50 + 20 + 'px';
 
   return (
@@ -89,4 +89,4 @@ const Clouds = () => {
   );
 };
 
-export default Clouds;
+export default BackgroundClouds;
