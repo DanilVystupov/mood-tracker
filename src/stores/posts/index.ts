@@ -1,11 +1,13 @@
 import { makeAutoObservable, runInAction } from 'mobx';
 import { supabase } from '../../client.ts';
-import { Post } from '../../types/types.ts';
+import { IEditFormPost, Post } from '../../types/types.ts';
 
 class Store {
   posts: Post[] = [];
+  editedPostId: string | null = null;
   isOpenModal: boolean = false;
   isLoading: boolean = false;
+  isEdit: boolean = false;
 
   constructor() {
     makeAutoObservable(this);
@@ -20,6 +22,18 @@ class Store {
   setLoading(value:boolean) {
     runInAction(() => {
       this.isLoading = value
+    })
+  }
+
+  setIsEdit(isEdit: boolean) {
+    runInAction(() => {
+      this.isEdit = isEdit
+    })
+  }
+
+  setEditedPostId(postId: string) {
+    runInAction(() => {
+      this.editedPostId = this.isEdit ? postId : null
     })
   }
 
@@ -71,6 +85,45 @@ class Store {
       console.error(error)
     }
   };
+
+  async removePost(id: string) {
+    const { error } = await supabase
+    .from("posts")
+    .delete()
+    .eq("id", id)
+    .select()
+
+    if (error) {
+      throw error
+    }
+
+    this.getPosts()
+  }
+
+  async updatePost (editPost: IEditFormPost, postId: string) {
+    try {
+      const { data, error } = await supabase
+        .from('posts')
+        .update({
+          emoji: editPost.emoji,
+          description: editPost.description,
+          reason: editPost.reason
+        })
+        .eq('id', postId)
+        .select()
+
+      if (error) {
+        throw error
+      }
+
+      if (data) {
+        this.setIsEdit(false)
+        this.getPosts()
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
 }
 
 export const postsStore = new Store();

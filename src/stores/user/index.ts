@@ -1,6 +1,6 @@
 import { User } from "@supabase/supabase-js";
 import { makeAutoObservable, runInAction } from "mobx";
-import { supabase } from "../../client";
+import { supabase } from "../../client.ts";
 class Store {
   user: User | null = {
     id: "",

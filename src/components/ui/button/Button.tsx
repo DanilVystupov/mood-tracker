@@ -9,13 +9,13 @@ interface IButtonProps {
   type?: "reset" | "button" | "submit";
 }
 
-export default function Button({
+export const Button = ({
   children,
   primary,
   secondary,
   onClick,
   type = 'button',
-}: IButtonProps) {
+}: IButtonProps) => {
   const classes = className('button', {
     'button--primary': primary,
     'button--secondary': secondary,

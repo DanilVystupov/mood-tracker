@@ -1,7 +1,8 @@
 import { observer } from 'mobx-react-lite';
 import { useEffect } from 'react';
-import { PostItem } from './PostItem.tsx';
-import { postsStore } from '../../stores/posts/index.ts';
+import { PostItem } from '../post-item/PostItem.tsx';
+import { postsStore } from '../../../stores/posts/index.ts';
+import './PostList.pcss'
 
 export const PostList = observer(() => {
 

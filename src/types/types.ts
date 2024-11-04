@@ -5,6 +5,13 @@ export interface IFormPost {
   datePublication: string;
 }
 
+export interface IEditFormPost {
+  id: string;
+  emoji: string;
+  description: string;
+  reason: string;
+}
+
 export interface IFormSignUp {
   name: string;
   email: string;

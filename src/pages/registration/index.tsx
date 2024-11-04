@@ -1,6 +1,6 @@
 import FormSignUp from "../../components/ui/form/sign-up/FormSignUp";
 
-function RegistrationPage() {
+export const RegistrationPage = () => {
   return (
     <div className="intro">
       <h2 className="intro__title">Привет, дорогой пользователь</h2>
@@ -15,5 +15,3 @@ function RegistrationPage() {
     </div>
   );
 }
-
-export default RegistrationPage;

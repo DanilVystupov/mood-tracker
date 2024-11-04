@@ -1,13 +1,13 @@
 import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { supabase } from "../../../../client";
+import { supabase } from "../../../../client.ts";
 import { HOME_PATH, SIGN_UP_PATH } from "../../../../helpers/constants/paths";
 import { useHandleNavigate } from "../../../../helpers/hooks/useHandleNavigate";
 import { IFormLogin } from "../../../../types/types";
-import Button from "../../button/Button";
+import { Button } from "../../button/Button";
 import './FormLogin.pcss';
 
-const FormLogin = () => {
+export const FormLogin = () => {
   const {
     register,
     handleSubmit,
@@ -97,5 +97,3 @@ const FormLogin = () => {
     </section>
   );
 }
-
-export default FormLogin;

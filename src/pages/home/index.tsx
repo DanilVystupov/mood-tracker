@@ -1,15 +1,15 @@
 import { observer } from 'mobx-react-lite';
 import { useEffect } from 'react';
 import { supabase } from '../../client.ts';
-import { PostList } from '../../components/post/PostList.tsx';
-import Button from '../../components/ui/button/Button.tsx';
+import { PostList } from '../../components/post/post-list/PostList.tsx';
+import { Button } from '../../components/ui/button/Button.tsx';
 import { BASE_PATH } from '../../helpers/constants/paths.ts';
 import { useHandleNavigate } from '../../helpers/hooks/useHandleNavigate.tsx';
 import { postsStore } from '../../stores/posts';
 import { userStore } from '../../stores/user/index.ts';
 import { PostForm } from './components/post/PostForm.tsx';
 
-const HomePage = () => {
+export const HomePage = observer(() => {
   const handleNavigate = useHandleNavigate()
 
   const signOut = () => {
@@ -61,6 +61,4 @@ const HomePage = () => {
       </div>
     </div>
   );
-};
-
-export default observer(HomePage);
+});

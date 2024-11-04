@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { supabase } from "../../../../client";
+import { supabase } from "../../../../client.ts";
 import { BASE_PATH } from "../../../../helpers/constants/paths";
 import { useHandleNavigate } from "../../../../helpers/hooks/useHandleNavigate";
 import { IFormSignUp } from "../../../../types/types";
-import Button from "../../button/Button";
+import { Button } from "../../button/Button";
 import './FormSignUp.pcss';
 
 const FormSignUp = () => {

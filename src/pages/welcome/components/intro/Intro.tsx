@@ -1,8 +1,7 @@
-import FormLogin from '../../../../components/ui/form/login/FormLogin.tsx';
+import { FormLogin } from '../../../../components/ui/form/login/FormLogin.tsx';
 import './Intro.pcss';
 
-function Intro() {
-
+export const Intro = () => {
   return (
     <div className="intro">
       <h2 className="intro__title">Привет, дорогой пользователь</h2>
@@ -17,5 +16,3 @@ function Intro() {
     </div>
   );
 }
-
-export default Intro;
