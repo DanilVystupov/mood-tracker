@@ -2,8 +2,9 @@ import { observer } from 'mobx-react-lite';
 import { Post } from '../../../types/types.ts';
 import './PostItem.pcss';
 import { Button } from '../../ui/button/Button.tsx';
-import { postsStore } from '../../../stores/posts/index.ts';
 import { PostEdit } from '../post-edit/PostEdit.tsx';
+import { useFormatDate } from '../../../helpers/hooks/useFormatDate.tsx';
+import { accountStore } from '../../../stores/account/index.ts';
 
 interface PostItemProps {
   post: Post;
@@ -11,11 +12,13 @@ interface PostItemProps {
 
 export const PostItem = observer(({ post }: PostItemProps) => {
   const editPost = (isEdit: boolean, postId: string) => {
-    postsStore.setIsEdit(isEdit)
-    postsStore.setEditedPostId(postId)
+    accountStore.setIsEdit(isEdit)
+    accountStore.setEditedPostId(postId)
   }
 
-  if (postsStore.isEdit && postsStore.editedPostId === post.id) {
+  const postDate = useFormatDate(post.inserted_at)
+
+  if (accountStore.isEdit && accountStore.editedPostId === post.id) {
     return (
       <PostEdit post={post} />
     )
@@ -25,7 +28,7 @@ export const PostItem = observer(({ post }: PostItemProps) => {
     <div className="post">
       <div className="post__section">
         <h4>
-          Время публикации: <span>{post.inserted_at}</span>
+          Время публикации: <span>{postDate}</span>
         </h4>
       </div>
       <div className="post__section">
@@ -47,7 +50,7 @@ export const PostItem = observer(({ post }: PostItemProps) => {
       <div className="post__controls">
         <Button 
           primary
-          onClick={() => postsStore.removePost(post.id)}
+          onClick={() => accountStore.removePost(post.id)}
         >
           Удалить
         </Button>

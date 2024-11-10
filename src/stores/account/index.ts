@@ -1,33 +1,54 @@
-import { makeAutoObservable, runInAction } from 'mobx';
-import { supabase } from '../../client.ts';
-import { IEditFormPost, Post } from '../../types/types.ts';
+import { User } from "@supabase/supabase-js";
+import { makeAutoObservable, runInAction } from "mobx";
+import { supabase } from "../../client.ts";
+import { IEditFormPost, Post } from "../../types/types.ts";
 
 class Store {
+  user: User | null = {
+    id: "",
+    aud: "",
+    role: "",
+    email: "",
+    email_confirmed_at: "",
+    phone: "",
+    confirmation_sent_at: "",
+    confirmed_at: "",
+    last_sign_in_at: "",
+    app_metadata: {
+      provider: "",
+      providers: []
+    },
+    user_metadata: {
+      email: "",
+      email_verified: false,
+      full_name: "",
+      phone_verified: false,
+      sub: ""
+    },
+    identities: [],
+    created_at: "",
+    updated_at: "",
+    is_anonymous: false
+  }
   posts: Post[] = [];
   editedPostId: string | null = null;
   isOpenModal: boolean = false;
-  isLoading: boolean = false;
   isEdit: boolean = false;
+  isLoading: boolean = false;
 
   constructor() {
-    makeAutoObservable(this);
+    makeAutoObservable(this)
   }
 
-  setIsOpenModal(value: boolean) {
+  setUser(data: User) {
     runInAction(() => {
-      this.isOpenModal = value;
+      this.user = { ...data }
     })
   }
-
-  setLoading(value:boolean) {
+  
+  setPosts(data: Post[]) {
     runInAction(() => {
-      this.isLoading = value
-    })
-  }
-
-  setIsEdit(isEdit: boolean) {
-    runInAction(() => {
-      this.isEdit = isEdit
+      this.posts = [...data]
     })
   }
 
@@ -37,15 +58,41 @@ class Store {
     })
   }
 
-  setPosts(data: Post[]) {
+  setIsOpenModal(value: boolean) {
     runInAction(() => {
-      this.posts = [...data]
+      this.isOpenModal = value;
     })
   }
 
-  async getPosts() {
-    this.setLoading(true)
+  setIsEdit(isEdit: boolean) {
+    runInAction(() => {
+      this.isEdit = isEdit
+    })
+  }
 
+  setLoading(value: boolean) {
+    runInAction(() => {
+      this.isLoading = value
+    })
+  }
+
+  async getUser() {
+    try {
+      const { data: { user }, error } = await supabase.auth.getUser()
+
+      if (error) {
+        throw error
+      }
+
+      if (user) {
+        this.setUser(user)
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  async getPosts() {
     try {
       const { data: posts, error } = await supabase.from('posts').select()
 
@@ -53,6 +100,15 @@ class Store {
         throw error
       }
       this.setPosts(posts)
+    } catch(error) {
+      console.error(error)
+    }
+  }
+
+  async getAllData() {
+    this.setLoading(true)
+    try {
+      await Promise.all([this.getUser(), this.getPosts()])
     } catch(error) {
       console.error(error)
     } finally {
@@ -126,4 +182,4 @@ class Store {
   }
 }
 
-export const postsStore = new Store();
+export const accountStore = new Store()

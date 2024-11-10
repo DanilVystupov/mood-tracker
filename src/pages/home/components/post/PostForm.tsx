@@ -1,8 +1,7 @@
 import { observer } from 'mobx-react-lite';
 import { useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { postsStore } from '../../../../stores/posts';
-import { userStore } from '../../../../stores/user/index.ts';
+import { accountStore } from '../../../../stores/account/index.ts';
 import { IFormPost } from '../../../../types/types.ts';
 
 const emojis: string[] = ['😊', '😢', '😡', '😎', '🤔'];
@@ -16,19 +15,19 @@ export const PostForm = observer(() => {
   } = useForm<IFormPost>();
 
   const createFormPost: SubmitHandler<IFormPost> = async (data) => {
-    const id = userStore.user?.id
+    const id = accountStore.user?.id
     
     if (!id) {
       console.error("Ошибка: ID пользователя не найден");
       return;
     }
 
-    await postsStore.addPost({
+    await accountStore.addPost({
       ...data, id,
       inserted_at: '',
       user_id: ''
     });
-    postsStore.setIsOpenModal(false);
+    accountStore.setIsOpenModal(false);
   };
 
   useEffect(() => {
@@ -38,7 +37,7 @@ export const PostForm = observer(() => {
   }, [isSubmitSuccessful, reset]);
 
   return (
-    postsStore.isOpenModal && (
+    accountStore.isOpenModal && (
       <div className="post-form flex">
         <h1 className="post-form__title">Создать запись</h1>
         <form

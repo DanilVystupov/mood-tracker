@@ -2,8 +2,8 @@ import { observer } from "mobx-react-lite";
 import { IEditFormPost, Post } from "../../../types/types";
 import { useForm } from "react-hook-form";
 import { Button } from "../../ui/button/Button";
-import { postsStore } from "../../../stores/posts";
 import { useEffect } from "react";
+import { accountStore } from "../../../stores/account";
 
 interface IPostEditProps {
   post: Post
@@ -15,8 +15,7 @@ export const PostEdit = observer(({post}: IPostEditProps) => {
   const {
     register,
     handleSubmit,
-    setValue,
-    formState: {isSubmitSuccessful}
+    setValue
   } = useForm<IEditFormPost>({
     defaultValues: {
       emoji: post.emoji,
@@ -26,7 +25,7 @@ export const PostEdit = observer(({post}: IPostEditProps) => {
   });
 
   const handlePost = async (editPost: IEditFormPost) => {
-    postsStore.updatePost(editPost, post.id)
+    accountStore.updatePost(editPost, post.id)
   }
 
   useEffect(() => {
@@ -85,7 +84,7 @@ export const PostEdit = observer(({post}: IPostEditProps) => {
 
         <Button
           secondary
-          onClick={() => postsStore.setIsEdit(false)}
+          onClick={() => accountStore.setIsEdit(false)}
         >
           Отмена
         </Button>
