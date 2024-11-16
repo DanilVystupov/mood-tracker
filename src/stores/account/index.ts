@@ -1,35 +1,35 @@
-import { User } from "@supabase/supabase-js";
-import { makeAutoObservable, runInAction } from "mobx";
-import { supabase } from "../../client.ts";
-import { IEditFormPost, Post } from "../../types/types.ts";
+import { User } from '@supabase/supabase-js';
+import { makeAutoObservable, runInAction } from 'mobx';
+import { supabase } from '../../client.ts';
+import { IEditFormPost, Post } from '../../types/types.ts';
 
 class Store {
   user: User | null = {
-    id: "",
-    aud: "",
-    role: "",
-    email: "",
-    email_confirmed_at: "",
-    phone: "",
-    confirmation_sent_at: "",
-    confirmed_at: "",
-    last_sign_in_at: "",
+    id: '',
+    aud: '',
+    role: '',
+    email: '',
+    email_confirmed_at: '',
+    phone: '',
+    confirmation_sent_at: '',
+    confirmed_at: '',
+    last_sign_in_at: '',
     app_metadata: {
-      provider: "",
-      providers: []
+      provider: '',
+      providers: [],
     },
     user_metadata: {
-      email: "",
+      email: '',
       email_verified: false,
-      full_name: "",
+      full_name: '',
       phone_verified: false,
-      sub: ""
+      sub: '',
     },
     identities: [],
-    created_at: "",
-    updated_at: "",
-    is_anonymous: false
-  }
+    created_at: '',
+    updated_at: '',
+    is_anonymous: false,
+  };
   posts: Post[] = [];
   editedPostId: string | null = null;
   isOpenModal: boolean = false;
@@ -37,149 +37,154 @@ class Store {
   isLoading: boolean = false;
 
   constructor() {
-    makeAutoObservable(this)
+    makeAutoObservable(this);
   }
 
   setUser(data: User) {
     runInAction(() => {
-      this.user = { ...data }
-    })
+      this.user = { ...data };
+    });
   }
-  
+
   setPosts(data: Post[]) {
     runInAction(() => {
-      this.posts = [...data]
-    })
+      this.posts = [...data];
+    });
   }
 
   setEditedPostId(postId: string) {
     runInAction(() => {
-      this.editedPostId = this.isEdit ? postId : null
-    })
+      this.editedPostId = this.isEdit ? postId : null;
+    });
   }
 
   setIsOpenModal(value: boolean) {
     runInAction(() => {
       this.isOpenModal = value;
-    })
+    });
   }
 
   setIsEdit(isEdit: boolean) {
     runInAction(() => {
-      this.isEdit = isEdit
-    })
+      this.isEdit = isEdit;
+    });
   }
 
   setLoading(value: boolean) {
     runInAction(() => {
-      this.isLoading = value
-    })
+      this.isLoading = value;
+    });
+  }
+
+  closeModal() {
+    this.isOpenModal = false;
   }
 
   async getUser() {
     try {
-      const { data: { user }, error } = await supabase.auth.getUser()
+      const {
+        data: { user },
+        error,
+      } = await supabase.auth.getUser();
 
       if (error) {
-        throw error
+        throw error;
       }
 
       if (user) {
-        this.setUser(user)
+        this.setUser(user);
       }
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
   }
 
   async getPosts() {
     try {
-      const { data: posts, error } = await supabase.from('posts').select()
+      const { data: posts, error } = await supabase.from('posts').select();
 
       if (error) {
-        throw error
+        throw error;
       }
-      this.setPosts(posts)
-    } catch(error) {
-      console.error(error)
+      this.setPosts(posts);
+    } catch (error) {
+      console.error(error);
     }
   }
 
   async getAllData() {
-    this.setLoading(true)
+    this.setLoading(true);
     try {
-      await Promise.all([this.getUser(), this.getPosts()])
-    } catch(error) {
-      console.error(error)
+      await Promise.all([this.getUser(), this.getPosts()]);
+    } catch (error) {
+      console.error(error);
     } finally {
-      this.setLoading(false)
+      this.setLoading(false);
     }
   }
 
   async addPost(post: Post) {
     try {
       const { data: newPost, error } = await supabase
-      .from('posts')
-      .upsert(
-        {
+        .from('posts')
+        .upsert({
           user_id: post.id,
           description: post.description,
           reason: post.reason,
-          emoji: post.emoji
-        }
-      )
-      .select()
-      
+          emoji: post.emoji,
+        })
+        .select();
+
       runInAction(() => {
         this.posts = [...this.posts, ...(newPost ?? [])];
       });
-      
+
       if (error) {
         console.error('Ошибка при добавлении записи:', error.message);
       }
-    } catch(error) {
-      console.error(error)
+    } catch (error) {
+      console.error(error);
     }
-  };
+  }
 
   async removePost(id: string) {
     const { error } = await supabase
-    .from("posts")
-    .delete()
-    .eq("id", id)
-    .select()
+      .from('posts')
+      .delete()
+      .eq('id', id)
+      .select();
 
     if (error) {
-      throw error
+      throw error;
     }
 
-    this.getPosts()
+    this.getPosts();
   }
 
-  async updatePost (editPost: IEditFormPost, postId: string) {
+  async updatePost(editPost: IEditFormPost, postId: string) {
     try {
       const { data, error } = await supabase
         .from('posts')
         .update({
           emoji: editPost.emoji,
           description: editPost.description,
-          reason: editPost.reason
+          reason: editPost.reason,
         })
         .eq('id', postId)
-        .select()
+        .select();
 
       if (error) {
-        throw error
+        throw error;
       }
 
       if (data) {
-        this.setIsEdit(false)
-        this.getPosts()
+        this.setIsEdit(false);
+        this.getPosts();
       }
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
   }
 }
 
-export const accountStore = new Store()
+export const accountStore = new Store();
