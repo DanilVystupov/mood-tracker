@@ -1,3 +1,4 @@
+import React from 'react';
 import className from 'classnames';
 import './Button.pcss';
 
@@ -6,7 +7,7 @@ interface IButtonProps {
   onClick?: () => void;
   primary?: boolean;
   secondary?: boolean;
-  type?: "reset" | "button" | "submit";
+  type?: 'reset' | 'button' | 'submit';
 }
 
 export const Button = ({
@@ -26,4 +27,4 @@ export const Button = ({
       {children}
     </button>
   );
-}
+};

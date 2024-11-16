@@ -1,5 +1,5 @@
-import { HomePage } from './home'
-import { RegistrationPage } from './registration'
-import { WelcomePage } from './welcome'
+import { HomePage } from './home/HomePage.tsx';
+import { SignUpPage } from './sign-up/SignUpPage.tsx';
+import { MainPage } from './index.tsx';
 
-export { HomePage, RegistrationPage, WelcomePage }
+export { HomePage, SignUpPage, MainPage };

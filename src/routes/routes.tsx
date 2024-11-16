@@ -4,15 +4,15 @@ import {
   HOME_PATH,
   SIGN_UP_PATH,
 } from '../helpers/constants/paths.ts';
-import { HomePage, RegistrationPage, WelcomePage } from '../pages';
+import { HomePage, SignUpPage, MainPage } from '../pages';
 
 export const privateRoutes: RouteObject[] = [
-  { path: BASE_PATH, element: <WelcomePage /> },
+  { path: BASE_PATH, element: <MainPage /> },
   { path: HOME_PATH, element: <HomePage /> },
-  { path: SIGN_UP_PATH, element: <RegistrationPage /> },
+  { path: SIGN_UP_PATH, element: <SignUpPage /> },
 ];
 
 export const publicRoutes: RouteObject[] = [
-  { path: BASE_PATH, element: <WelcomePage /> },
-  { path: SIGN_UP_PATH, element: <RegistrationPage /> },
+  { path: BASE_PATH, element: <MainPage /> },
+  { path: SIGN_UP_PATH, element: <SignUpPage /> },
 ];

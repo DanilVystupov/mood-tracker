@@ -5,7 +5,7 @@ import { Button } from '../../components/ui/button/Button.tsx';
 import { BASE_PATH } from '../../helpers/constants/paths.ts';
 import { useHandleNavigate } from '../../helpers/hooks/useHandleNavigate.tsx';
 import { accountStore } from '../../stores/account';
-import { PostForm } from './components/post/PostForm.tsx';
+import { PostForm } from './components/post-form/PostForm.tsx';
 import { observer } from 'mobx-react-lite';
 import { Loader } from '../../components/ui/loader/Loader.tsx';
 
