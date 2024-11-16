@@ -1,4 +1,4 @@
-import './PostForm.pcss';
+import './PostCreate.pcss';
 import { observer } from 'mobx-react-lite';
 import { useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -8,7 +8,7 @@ import { Button } from '../../../../components/ui/button/Button.tsx';
 
 const emojis: string[] = ['😊', '😢', '😡', '😎', '🤔'];
 
-export const PostForm = observer(() => {
+export const PostCreate = observer(() => {
   const {
     register,
     handleSubmit,
@@ -53,27 +53,27 @@ export const PostForm = observer(() => {
 
   return (
     <div
-      className="post-form-backdrop"
+      className="post-create-backdrop"
       onClick={() => accountStore.closeModal()}
     >
-      <div className="post-form" onClick={(e) => e.stopPropagation()}>
-        <div className="post-form__header">
-          <h2 className="post-form__title">Создание записи</h2>
+      <div className="post-create" onClick={(e) => e.stopPropagation()}>
+        <div className="post-create__header">
+          <h2 className="post-create__title">Создание записи</h2>
           <Button onClick={() => accountStore.closeModal()}>
             <span className="cross-icon"></span>
           </Button>
         </div>
         <form
-          className="post-form__content"
+          className="post-create__content"
           onSubmit={handleSubmit(createFormPost)}
         >
-          <div className="post-form__item post-form-item">
-            <h3 className="post-form-item__title">
+          <div className="post-create__item post-create-item">
+            <h3 className="post-create-item__title">
               Выберите подходящий эмодзи
             </h3>
-            <div className="post-form-item__content">
+            <div className="post-create-item__content">
               {emojis.map((emoji, index) => (
-                <label key={index} className="post-form-item__label">
+                <label key={index} className="post-create-item__label">
                   <input
                     type="radio"
                     {...register('emoji', { required: true })}
@@ -85,9 +85,9 @@ export const PostForm = observer(() => {
             </div>
           </div>
 
-          <div className="post-form__item post-form-item">
-            <h3 className="post-form-item__title">Опишите ваше состояние</h3>
-            <div className="post-form-item__content">
+          <div className="post-create__item post-create-item">
+            <h3 className="post-create-item__title">Опишите ваше состояние</h3>
+            <div className="post-create-item__content">
               <input
                 type="text"
                 {...register('description', { required: true })}
@@ -95,11 +95,11 @@ export const PostForm = observer(() => {
             </div>
           </div>
 
-          <div className="post-form__item post-form-item">
-            <h3 className="post-form-item__title">
+          <div className="post-create__item post-create-item">
+            <h3 className="post-create-item__title">
               Опишите причину вашего текущего состояния
             </h3>
-            <div className="post-form-item__content">
+            <div className="post-create-item__content">
               <input type="text" {...register('reason', { required: true })} />
             </div>
           </div>

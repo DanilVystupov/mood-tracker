@@ -5,7 +5,7 @@ import { Button } from '../../components/ui/button/Button.tsx';
 import { BASE_PATH } from '../../helpers/constants/paths.ts';
 import { useHandleNavigate } from '../../helpers/hooks/useHandleNavigate.tsx';
 import { accountStore } from '../../stores/account';
-import { PostForm } from './components/post-form/PostForm.tsx';
+import { PostCreate } from './components/post-create/PostCreate.tsx';
 import { observer } from 'mobx-react-lite';
 import { Loader } from '../../components/ui/loader/Loader.tsx';
 
@@ -54,7 +54,7 @@ export const HomePage = observer(() => {
           Создать запись
         </Button>
 
-        {accountStore.isOpenModal && <PostForm />}
+        {accountStore.isOpenModal && <PostCreate />}
 
         <PostList />
 
