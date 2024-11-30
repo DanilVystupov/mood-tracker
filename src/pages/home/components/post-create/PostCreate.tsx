@@ -67,41 +67,46 @@ export const PostCreate = observer(() => {
           className="post-create__content"
           onSubmit={handleSubmit(createFormPost)}
         >
-          <div className="post-create__item post-create-item">
+          <div className="post__section">
             <h3 className="post-create-item__title">
               Выберите подходящий эмодзи
             </h3>
-            <div className="post-create-item__content">
-              {emojis.map((emoji, index) => (
-                <label key={index} className="post-create-item__label">
-                  <input
-                    type="radio"
-                    {...register('emoji', { required: true })}
-                    value={emoji}
-                  />
-                  {emoji}
-                </label>
-              ))}
-            </div>
+            {emojis.map((emoji, index) => (
+              <label key={index} className="post-create-item__label">
+                <input
+                  type="radio"
+                  {...register('emoji', { required: true })}
+                  value={emoji}
+                />
+                {emoji}
+              </label>
+            ))}
           </div>
 
-          <div className="post-create__item post-create-item">
+          <div className="post__section">
             <h3 className="post-create-item__title">Опишите ваше состояние</h3>
-            <div className="post-create-item__content">
-              <input
-                type="text"
-                {...register('description', { required: true })}
-              />
-            </div>
+            <textarea
+              spellCheck={true}
+              lang="ru"
+              rows={5}
+              maxLength={255}
+              {...register('description', { required: true })}
+              placeholder="Введите текст..."
+            ></textarea>
           </div>
 
-          <div className="post-create__item post-create-item">
+          <div className="post__section">
             <h3 className="post-create-item__title">
-              Опишите причину вашего текущего состояния
+              Опишите причину вашего состояния
             </h3>
-            <div className="post-create-item__content">
-              <input type="text" {...register('reason', { required: true })} />
-            </div>
+            <textarea
+              spellCheck={true}
+              lang="ru"
+              rows={5}
+              maxLength={255}
+              {...register('reason', { required: true })}
+              placeholder="Введите текст..."
+            ></textarea>
           </div>
 
           <Button type="submit">Создать</Button>

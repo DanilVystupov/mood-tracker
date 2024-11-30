@@ -31,9 +31,10 @@ class Store {
     is_anonymous: false,
   };
   posts: Post[] = [];
+  countLimitedPosts: number = 3;
   editedPostId: string | null = null;
   isOpenModal: boolean = false;
-  isEdit: boolean = false;
+  isEditPost: boolean = false;
   isLoading: boolean = false;
 
   constructor() {
@@ -52,9 +53,15 @@ class Store {
     });
   }
 
+  setCountLimitedPosts(value: number) {
+    runInAction(() => {
+      this.countLimitedPosts = value;
+    });
+  }
+
   setEditedPostId(postId: string) {
     runInAction(() => {
-      this.editedPostId = this.isEdit ? postId : null;
+      this.editedPostId = this.isEditPost ? postId : null;
     });
   }
 
@@ -64,9 +71,9 @@ class Store {
     });
   }
 
-  setIsEdit(isEdit: boolean) {
+  setIsEditPost(isEditPost: boolean) {
     runInAction(() => {
-      this.isEdit = isEdit;
+      this.isEditPost = isEditPost;
     });
   }
 
@@ -80,7 +87,16 @@ class Store {
     this.isOpenModal = false;
   }
 
-  async getUser() {
+  get limitedPosts() {
+    return this.posts
+      .toSorted(
+        (a, b) =>
+          new Date(b.inserted_at).getTime() - new Date(a.inserted_at).getTime()
+      )
+      .slice(-this.countLimitedPosts);
+  }
+
+  async fetchUser() {
     try {
       const {
         data: { user },
@@ -99,7 +115,7 @@ class Store {
     }
   }
 
-  async getPosts() {
+  async fetchPosts() {
     try {
       const { data: posts, error } = await supabase.from('posts').select();
 
@@ -112,10 +128,10 @@ class Store {
     }
   }
 
-  async getAllData() {
+  async fetchAllData() {
     this.setLoading(true);
     try {
-      await Promise.all([this.getUser(), this.getPosts()]);
+      await Promise.all([this.fetchUser(), this.fetchPosts()]);
     } catch (error) {
       console.error(error);
     } finally {
@@ -158,7 +174,7 @@ class Store {
       throw error;
     }
 
-    this.getPosts();
+    await this.fetchPosts();
   }
 
   async updatePost(editPost: IEditFormPost, postId: string) {
@@ -178,8 +194,8 @@ class Store {
       }
 
       if (data) {
-        this.setIsEdit(false);
-        this.getPosts();
+        this.setIsEditPost(false);
+        await this.fetchPosts();
       }
     } catch (error) {
       console.error(error);
