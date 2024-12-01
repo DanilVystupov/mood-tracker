@@ -4,6 +4,8 @@ import { useForm } from 'react-hook-form';
 import { Button } from '../../ui/button/Button';
 import { useEffect } from 'react';
 import { accountStore } from '../../../stores/account';
+import { Textarea } from '../../ui/textarea/Textarea.tsx';
+import { Input } from '../../ui/input/Input.tsx';
 
 interface IPostEditProps {
   post: Post;
@@ -52,9 +54,9 @@ export const PostEdit = observer(({ post }: IPostEditProps) => {
             </h3>
             {emojis.map((emoji, index) => (
               <label key={index}>
-                <input
+                <Input
                   type="radio"
-                  {...register('emoji', { required: true })}
+                  register={register('emoji', { required: true })}
                   value={emoji}
                   defaultChecked={post.emoji === emoji}
                 />
@@ -64,27 +66,15 @@ export const PostEdit = observer(({ post }: IPostEditProps) => {
           </div>
           <div className="post__section">
             <h3 className="post-create-item__title">Опишите ваше состояние</h3>
-            <textarea
-              spellCheck={true}
-              lang="ru"
-              rows={5}
-              maxLength={255}
-              {...register('description', { required: true })}
-              placeholder="Введите текст..."
-            ></textarea>
+
+            <Textarea register={register('description', { required: true })} />
           </div>
           <div className="post__section">
             <h3 className="post-create-item__title">
               Опишите причину вашего состояния
             </h3>
-            <textarea
-              spellCheck={true}
-              lang="ru"
-              rows={5}
-              maxLength={255}
-              {...register('reason', { required: true })}
-              placeholder="Введите текст..."
-            ></textarea>
+
+            <Textarea register={register('reason', { required: true })} />
           </div>
 
           <div className="post__controls">

@@ -88,12 +88,7 @@ class Store {
   }
 
   get limitedPosts() {
-    return this.posts
-      .toSorted(
-        (a, b) =>
-          new Date(b.inserted_at).getTime() - new Date(a.inserted_at).getTime()
-      )
-      .slice(-this.countLimitedPosts);
+    return this.posts.slice(0, this.countLimitedPosts);
   }
 
   async fetchUser() {
@@ -117,11 +112,15 @@ class Store {
 
   async fetchPosts() {
     try {
-      const { data: posts, error } = await supabase.from('posts').select();
+      const { data: posts, error } = await supabase
+        .from('posts')
+        .select()
+        .order('inserted_at', { ascending: false });
 
       if (error) {
         throw error;
       }
+
       this.setPosts(posts);
     } catch (error) {
       console.error(error);
@@ -141,7 +140,7 @@ class Store {
 
   async addPost(post: Post) {
     try {
-      const { data: newPost, error } = await supabase
+      const { error } = await supabase
         .from('posts')
         .upsert({
           user_id: post.id,
@@ -151,13 +150,11 @@ class Store {
         })
         .select();
 
-      runInAction(() => {
-        this.posts = [...this.posts, ...(newPost ?? [])];
-      });
-
       if (error) {
-        console.error('Ошибка при добавлении записи:', error.message);
+        throw Error;
       }
+
+      await this.fetchPosts();
     } catch (error) {
       console.error(error);
     }

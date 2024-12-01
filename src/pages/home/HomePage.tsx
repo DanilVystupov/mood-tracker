@@ -1,9 +1,9 @@
 import './HomePage.pcss';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { supabase } from '../../client.ts';
 import { PostList } from '../../components/post/post-list/PostList.tsx';
 import { Button } from '../../components/ui/button/Button.tsx';
-import { BASE_PATH } from '../../helpers/constants/paths.ts';
+import { ALL_POSTS_PATH, BASE_PATH } from '../../helpers/constants/paths.ts';
 import { useHandleNavigate } from '../../helpers/hooks/useHandleNavigate.tsx';
 import { accountStore } from '../../stores/account';
 import { PostCreate } from './components/post-create/PostCreate.tsx';
@@ -12,12 +12,11 @@ import { Loader } from '../../components/ui/loader/Loader.tsx';
 import { Link } from 'react-router-dom';
 
 export const HomePage = observer(() => {
-  const [countPosts] = useState<number>(3);
   const handleNavigate = useHandleNavigate();
 
   const loadMorePosts = async () => {
     accountStore.setLoading(true);
-    accountStore.setCountLimitedPosts(countPosts + 3);
+    accountStore.setCountLimitedPosts(accountStore.limitedPosts.length + 3);
     accountStore.setLoading(false);
   };
 
@@ -63,7 +62,7 @@ export const HomePage = observer(() => {
             Создать запись
           </Button>
 
-          <Link to="#" target="_blank" className="button button--primary">
+          <Link to={ALL_POSTS_PATH} className="button button--primary">
             Все записи
           </Link>
         </div>

@@ -5,6 +5,8 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { accountStore } from '../../../../stores/account';
 import { IFormPost } from '../../../../types/types.ts';
 import { Button } from '../../../../components/ui/button/Button.tsx';
+import { Textarea } from '../../../../components/ui/textarea/Textarea.tsx';
+import { Input } from '../../../../components/ui/input/Input.tsx';
 
 const emojis: string[] = ['😊', '😢', '😡', '😎', '🤔'];
 
@@ -73,9 +75,9 @@ export const PostCreate = observer(() => {
             </h3>
             {emojis.map((emoji, index) => (
               <label key={index} className="post-create-item__label">
-                <input
+                <Input
                   type="radio"
-                  {...register('emoji', { required: true })}
+                  register={register('emoji', { required: true })}
                   value={emoji}
                 />
                 {emoji}
@@ -85,28 +87,16 @@ export const PostCreate = observer(() => {
 
           <div className="post__section">
             <h3 className="post-create-item__title">Опишите ваше состояние</h3>
-            <textarea
-              spellCheck={true}
-              lang="ru"
-              rows={5}
-              maxLength={255}
-              {...register('description', { required: true })}
-              placeholder="Введите текст..."
-            ></textarea>
+
+            <Textarea register={register('description', { required: true })} />
           </div>
 
           <div className="post__section">
             <h3 className="post-create-item__title">
               Опишите причину вашего состояния
             </h3>
-            <textarea
-              spellCheck={true}
-              lang="ru"
-              rows={5}
-              maxLength={255}
-              {...register('reason', { required: true })}
-              placeholder="Введите текст..."
-            ></textarea>
+
+            <Textarea register={register('reason', { required: true })} />
           </div>
 
           <Button type="submit">Создать</Button>
